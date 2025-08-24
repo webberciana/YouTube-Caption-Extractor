@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Caption Extractor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#1e3a8a'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 min-h-screen py-4 sm:py-8 transition-colors duration-200">
+    <div class="container mx-auto px-4 max-w-6xl">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-8 mb-6 sm:mb-8 transition-colors duration-200">
+            <!-- Header with Logo and Theme Toggle -->
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                <div class="flex items-center gap-3 mb-4 sm:mb-0">
+                    <!-- Cool SVG Logo -->
+                    <div class="flex-shrink-0">
+                        <svg width="53" height="32" viewBox="0 0 53 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g filter="url(#filter0_d_1_3)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0C1.79086 0 0 1.79086 0 4V26C0 28.2091 1.79086 30 4 30H46C48.2091 30 50 28.2091 50 26V4C50 1.79086 48.2091 0 46 0H4ZM20.8578 22.3084L33.5201 15.3801L21.1889 7.87839L20.8578 22.3084Z" fill="#F31919"/>
+                            </g>
+                            <defs>
+                                <filter id="filter0_d_1_3" x="0" y="0" width="53" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+                                    <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+                                    <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+                                    <feOffset dx="3" dy="2"/>
+                                    <feComposite in2="hardAlpha" operator="out"/>
+                                    <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.35 0"/>
+                                    <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_3"/>
+                                    <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_3" result="shape"/>
+                                </filter>
+                            </defs>
+                        </svg>
+
+                    </div>
+                    <div>
+                        <h1 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white transition-colors duration-200">
+                            YouTube Caption Extractor
+                        </h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                            Extract and navigate video captions with ease
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle Button -->
+                <button
+                    id="themeToggle"
+                    class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 self-start sm:self-auto"
+                    aria-label="Toggle dark mode"
+                >
+                    <svg id="sunIcon" class="w-4 h-4 transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clip-rule="evenodd"/>
+                    </svg>
+                    <svg id="moonIcon" class="w-4 h-4 hidden transition-transform duration-200" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
+                    </svg>
+                    <span class="text-sm font-medium">Theme</span>
+                </button>
+            </div>
+
+            <form id="videoForm" class="mb-6">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-4">
+                    <input
+                        type="text"
+                        id="videoInput"
+                        placeholder="Enter YouTube video URL or ID (e.g., T7M3PpjBZzw)"
+                        class="flex-1 px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+                        required
+                    >
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
+                        <select id="langSelect" class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 w-full sm:w-auto min-w-[120px]">
+                            <option value="en">English</option>
+                            <option value="ru">Russian</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                        </select>
+                        <button
+                            type="submit"
+                            class="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap"
+                        >
+                            Extract Captions
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div id="loading" class="hidden text-center py-8">
+                <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">Loading captions...</p>
+            </div>
+
+            <div id="error" class="hidden bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 rounded-lg mb-4 transition-colors duration-200"></div>
+        </div>
+
+        <div id="results" class="hidden">
+            <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+                <!-- Video Player Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 transition-colors duration-200">
+                    <h2 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Video Player</h2>
+                    <div id="videoPlayer" class="aspect-video bg-black rounded-lg overflow-hidden shadow-inner"></div>
+                    <div id="videoInfo" class="mt-4">
+                        <h3 id="videoTitle" class="text-lg font-medium text-gray-800 dark:text-white mb-2"></h3>
+                        <div id="videoDescription" class="text-sm text-gray-600 dark:text-gray-400 max-h-32 overflow-y-auto pr-2 leading-relaxed whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+
+                <!-- Captions Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 sm:p-6 transition-colors duration-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h2 class="text-xl font-semibold text-gray-800 dark:text-white">Captions</h2>
+                        <div class="text-sm text-gray-500 dark:text-gray-400" id="captionCount"></div>
+                    </div>
+                    <div id="captionsList" class="max-h-96 overflow-y-auto space-y-2 pr-2 scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 scrollbar-track-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
