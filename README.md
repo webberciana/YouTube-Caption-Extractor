@@ -2,6 +2,8 @@
 
 A modern, responsive TypeScript application for extracting and navigating YouTube video captions with clickable timestamps and dark theme support.
 
+Demo: [https://captions.botly.app/](https://captions.botly.app/)
+
 <img width="1032" height="731" alt="preview" src="https://github.com/user-attachments/assets/482bbcbe-d159-4ad7-bb48-2f7e8b67f77c" />
 
 ![YouTube Caption Extractor](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
