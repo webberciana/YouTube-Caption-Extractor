@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { HandlerResult, ROUTE_HANDLERS, ROUTES } from './config';
+import path from 'path';
+import { getVideoDetails } from 'youtube-caption-extractor';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,26 +10,64 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-const sendHandlerResponse = (res: express.Response, handlerResult: HandlerResult) => {
-  res.status(handlerResult.statusCode);
+// Extract video ID helper function
+function extractVideoId(input: string): string {
+  const youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = input.match(youtubeRegex);
 
-  if (handlerResult.headers) {
-    Object.entries(handlerResult.headers).forEach(([key, value]) => {
-      res.setHeader(key, value as string);
-    });
+  if (match && match[1]) {
+    return match[1];
   }
 
-  res.send(handlerResult.body);
-};
+  if (/^[a-zA-Z0-9_-]{11}$/.test(input.trim())) {
+    return input.trim();
+  }
 
-app.post(ROUTES.CAPTIONS, async (req, res) => {
-  const result = await ROUTE_HANDLERS[ROUTES.CAPTIONS](req.body);
-  sendHandlerResponse(res, result);
+  throw new Error('Invalid YouTube URL or video ID');
+}
+
+// API endpoint for captions
+app.post('/api/captions', async (req, res) => {
+  try {
+    const { videoInput, lang = 'en' } = req.body;
+
+    if (!videoInput) {
+      return res.status(400).json({
+        success: false,
+        error: 'Video URL or ID is required'
+      });
+    }
+
+    const videoId = extractVideoId(videoInput);
+    console.log(`Fetching captions for video: ${videoId}, language: ${lang}`);
+
+    const videoDetails = await getVideoDetails({ videoID: videoId, lang });
+
+    res.json({
+      success: true,
+      data: {
+        ...videoDetails,
+        videoId
+      }
+    });
+
+  } catch (error) {
+    console.error('Error fetching captions:', error);
+    res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to fetch video captions'
+    });
+  }
 });
 
-app.get(ROUTES.HOME, async (req, res) => {
-  const result = await ROUTE_HANDLERS[ROUTES.HOME]();
-  sendHandlerResponse(res, result);
+// Serve favicon
+app.get('/favicon.ico', (req, res) => {
+  res.status(204).end();
+});
+
+// Serve main page
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.listen(PORT, () => {
