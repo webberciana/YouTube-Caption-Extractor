@@ -6,3 +6,4 @@ build
 playwright-report
 test-results
 tmp
+.env
