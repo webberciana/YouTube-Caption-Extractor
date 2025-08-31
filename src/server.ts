@@ -6,9 +6,12 @@ import { getVideoDetails } from 'youtube-caption-extractor';
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public'));
+
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Extract video ID helper function
 function extractVideoId(input: string): string {
@@ -29,6 +32,8 @@ function extractVideoId(input: string): string {
 // API endpoint for captions
 app.post('/api/captions', async (req, res) => {
   try {
+    console.log('Received request:', req.body);
+    
     const { videoInput, lang = 'en' } = req.body;
 
     if (!videoInput) {
@@ -42,6 +47,7 @@ app.post('/api/captions', async (req, res) => {
     console.log(`Fetching captions for video: ${videoId}, language: ${lang}`);
 
     const videoDetails = await getVideoDetails({ videoID: videoId, lang });
+    console.log('Video details fetched successfully');
 
     res.json({
       success: true,
@@ -53,23 +59,27 @@ app.post('/api/captions', async (req, res) => {
 
   } catch (error) {
     console.error('Error fetching captions:', error);
+    
+    const errorMessage = error instanceof Error ? error.message : 'Failed to fetch video captions';
+    
     res.status(500).json({
       success: false,
-      error: error instanceof Error ? error.message : 'Failed to fetch video captions'
+      error: errorMessage
     });
   }
 });
 
-// Serve favicon
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end();
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
 
-// Serve main page
-app.get('/', (req, res) => {
+// Serve main page for all other routes
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`📝 API available at http://localhost:${PORT}/api/captions`);
 });
