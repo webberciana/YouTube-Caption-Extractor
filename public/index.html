@@ -34,7 +34,7 @@
                     <div class="flex-shrink-0">
                         <svg width="53" height="32" viewBox="0 0 53 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g filter="url(#filter0_d_1_3)">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0C1.79086 0 0 1.79086 0 4V26C0 28.2091 1.79086 30 4 30H46C48.2091 30 50 28.2091 50 26V4C50 1.79086 48.2091 0 46 0H4ZM20.8578 22.3084L33.5201 15.3801L21.1889 7.87839L20.8578 22.3084Z" fill="#F31919"/>
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0C1.79086 0 0 1.79086 0 4V26C0 28.2091 1.79086 30 4 30H46C48.2091 30 50 28.2091 50 26V4C50 1.79086 48.2091 0 46 0H4ZM20.8578 22.3084L33.5201 15.3801L21.1889 7.87839L20.8578 22.3084Z" fill="#FF0000"/>
                             </g>
                             <defs>
                                 <filter id="filter0_d_1_3" x="0" y="0" width="53" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
@@ -86,7 +86,7 @@
                         required
                     >
                     <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto">
-                        <select id="langSelect" class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 w-full sm:w-auto min-w-[120px]">
+                        <select id="langSelect" class="px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 w-full sm:w-auto min-w-[120px]">
                             <option value="en">English</option>
                             <option value="ru">Russian</option>
                             <option value="es">Spanish</option>
@@ -95,7 +95,7 @@
                         </select>
                         <button
                             type="submit"
-                            class="px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap"
+                            class="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-medium rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5 whitespace-nowrap"
                         >
                             Extract Captions
                         </button>
@@ -290,7 +290,7 @@
 
           captionElement.innerHTML = `
             <div class="flex items-start gap-3">
-                <span class="text-primary-600 dark:text-primary-400 font-mono text-sm font-medium min-w-[50px] flex-shrink-0">${formattedTime}</span>
+                <span class="text-blue-600 dark:text-blue-400 font-mono text-sm font-medium min-w-[50px] flex-shrink-0">${formattedTime}</span>
                 <p class="text-gray-800 dark:text-gray-200 text-sm leading-relaxed flex-1">${subtitle.text}</p>
             </div>
         `;
@@ -300,10 +300,10 @@
 
             // Highlight clicked caption
             document.querySelectorAll('.caption-item').forEach(item => {
-              item.classList.remove('bg-primary-100', 'dark:bg-primary-900/30', 'border-primary-300', 'dark:border-primary-600', 'ring-2', 'ring-primary-500/20');
+              item.classList.remove('bg-blue-100', 'dark:bg-blue-900/30', 'border-blue-300', 'dark:border-blue-600', 'ring-2', 'ring-blue-500/20');
               item.classList.add('border-gray-200', 'dark:border-gray-600');
             });
-            captionElement.classList.add('bg-primary-100', 'dark:bg-primary-900/30', 'border-primary-300', 'dark:border-primary-600', 'ring-2', 'ring-primary-500/20');
+            captionElement.classList.add('bg-blue-100', 'dark:bg-blue-900/30', 'border-blue-300', 'dark:border-blue-600', 'ring-2', 'ring-blue-500/20');
             captionElement.classList.remove('border-gray-200', 'dark:border-gray-600');
 
             // Smooth scroll to clicked caption
