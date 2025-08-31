@@ -55,7 +55,7 @@ app.post('/api/captions', async (req, res) => {
     console.error('Error fetching captions:', error);
     res.status(500).json({
       success: false,
-      error: error.message || 'Failed to fetch video captions'
+      error: error instanceof Error ? error.message : 'Failed to fetch video captions'
     });
   }
 });
